@@ -48,7 +48,7 @@ namespace ConsoleApp1
 
             }
         }
-
+        public void 
         public void RemoveAstronaut(int index)
         {
             for (int i = 0; i < Astronauts.Count; i++)
