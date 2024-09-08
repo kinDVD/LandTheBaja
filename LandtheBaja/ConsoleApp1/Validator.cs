@@ -18,6 +18,16 @@ namespace StaticLecture
             return result;
         }
 
+        public static int GetIntRange()
+        {
+            int result = -1;
+            while (int.TryParse(Console.ReadLine(), out result) == false || result > 3)
+            {
+                Console.WriteLine("Invalid input.");
+            }
+            return result;
+        }
+
         public static double GetInputDouble()
         {
             double result = -1;

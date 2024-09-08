@@ -48,7 +48,57 @@ namespace ConsoleApp1
 
             }
         }
-        public void 
+        //public void - clue is group landing drill - traitors have 90% failure, non-traitors have 15% failure.
+        public void landingDrill()
+        {
+            bool success = false;
+            Random rnd1 = new Random();
+            foreach (Astronaut c in Astronauts)
+                
+                if(c.IsTraitor == true)
+                {
+                    int roll = rnd1.Next(1, 50);
+                    if (roll <= 5)
+                    {
+                        success = true;
+                        if (roll == 1)
+                        {
+                            Console.WriteLine($"{c.SuitColor} called success from their station. You didn't see it.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{c.SuitColor} succeeded at their function.");
+                        }
+                    }
+                    else
+                    {
+                        success = false;
+                        if (roll >= 40)
+                        {
+                            Console.WriteLine($"{c.SuitColor} did not succeed at their function.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{c.SuitColor} calls failure from their station. You didn't see it.");
+                        }
+                    }
+                }
+                else
+                {
+                    int roll = rnd1.Next(1, 10);
+                    if (roll <= 9)
+                    {
+                        success = true;
+                        Console.WriteLine($"{c.SuitColor} succeeded at their function.");
+                    }
+                    else
+                    {
+                        success = false;
+                        Console.WriteLine($"{c.SuitColor} calls failure from their station. You didn't see it.");
+                    }
+                }
+        }
+
         public void RemoveAstronaut(int index)
         {
             for (int i = 0; i < Astronauts.Count; i++)
