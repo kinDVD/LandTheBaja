@@ -1,20 +1,16 @@
 ﻿using StaticLecture;
 using ConsoleApp1;
 bool runProgram = true;
+int programCount = 0;
 while (runProgram)
 {
     Spaceship Baja = new Spaceship();
-    int programCount = 0;
-    string shipName = "Baja";
+    string shipName = "Baja" + programCount;
     bool land = true;
     int jettison = 0;
     double mutiny = 0;
     List<Astronaut> jettisonedT = new List<Astronaut>();
     Baja.RandomTraitors();
-    if (programCount > 0)
-    {
-        shipName = "Baja" + programCount;
-    }
     Console.WriteLine($"You drift over the earth in the {shipName}.\r\n" +
         "The Baja's resources won't last another day.\r\n" +
         "You have been democratically elected by the others to make the call.\r\n" +
@@ -31,7 +27,7 @@ while (runProgram)
 
     while (land)
     {
-        while (mutiny < 3)
+        while (mutiny < 10)
         {
             Console.WriteLine("The room is tense.");
             Console.WriteLine("The astronauts who remain:");
@@ -49,7 +45,7 @@ while (runProgram)
                 Console.WriteLine("ENTER A NUMBER TO REMOVE AN ASTRONAUT");
                 int index = Validator.GetInputInt();
                 Baja.RemoveAstronaut(index, jettisonedT);
-                mutiny = mutiny + 0.7;
+                mutiny += 0.7 + (mutiny * 1.5);
                 jettison++;
                 Console.Clear();
             }
@@ -59,7 +55,7 @@ while (runProgram)
                 Console.WriteLine("You muster false enthusiasm and request an entry drill.");
                 Baja.landingDrill();
                 Console.WriteLine("Press ENTER to continue.");
-                mutiny = mutiny + 0.5;
+                mutiny += 0.5 + (mutiny * 1.5);
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -104,12 +100,14 @@ while (runProgram)
     string again = Console.ReadLine();
     if (again == "y")
     {
-        programCount++;
         runProgram = true;
+        programCount += 1;
+        Console.Clear();
     }
     else
     {
         runProgram = false;
+        Console.Clear();
     }
 }
 

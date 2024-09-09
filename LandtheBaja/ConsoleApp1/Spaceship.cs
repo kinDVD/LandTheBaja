@@ -112,21 +112,21 @@ namespace ConsoleApp1
                 }
         }
 
-        public void RemoveAstronaut(int index, List<Astronaut> jettisonedT)
+        public List<Astronaut> RemoveAstronaut(int index, List<Astronaut> jettisonedT)
         {
             for (int i = 0; i < Astronauts.Count; i++)
             {
-                if (i == index )
+                if (i == index)
                 {
-                    if(Astronauts[i].IsTraitor == true)
+                    if (Astronauts[i].IsTraitor == true)
                     {
                         jettisonedT.Add(Astronauts[i]);
-                        Astronauts.RemoveAt(i); 
                     }
                     Astronauts.Remove(Astronauts[i]);
                     break;
                 }
             }
+            return jettisonedT;
         }
         public bool LandSafely()
         {
@@ -162,25 +162,45 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("Chance of mutiny: 0%");
             }
-            else if (mutiny <= 0.5)
-            {
-                Console.WriteLine("Chance of mutiny: 15%");
-            }
             else if (mutiny <= 1)
             {
-                Console.WriteLine("Chance of mutiny: 30%");
-            }
-            else if (mutiny <= 1.5)
-            {
-                Console.WriteLine("Chance of mutiny: 50%");
+                Console.WriteLine("Chance of mutiny: >0%");
             }
             else if (mutiny <= 2)
             {
+                Console.WriteLine("Chance of mutiny: 20%");
+            }
+            else if (mutiny <= 3)
+            {
+                Console.WriteLine("Chance of mutiny: 30%");
+            }
+            else if (mutiny <= 4)
+            {
+                Console.WriteLine("Chance of mutiny: 40%");
+            }
+            else if (mutiny <= 5)
+            {
+                Console.WriteLine("Chance of mutiny: 50%");
+            }
+            else if (mutiny <= 6)
+            {
+                Console.WriteLine("Chance of mutiny: 60%");
+            }
+            else if (mutiny <= 7)
+            {
                 Console.WriteLine("Chance of mutiny: 70%");
             }
-            else if (mutiny <= 2.5)
+            else if (mutiny <= 8)
+            {
+                Console.WriteLine("Chance of mutiny: 80%");
+            }
+            else if (mutiny <= 9)
             {
                 Console.WriteLine("Chance of mutiny: 90%");
+            }
+            else if (mutiny < 10)
+            {
+                Console.WriteLine("Chance of mutiny: <100%");
             }
         }
         public void RevealTraitors(List<Astronaut>jettisonedT)
