@@ -19,16 +19,16 @@ namespace ConsoleApp1
             //Grand Circus / Subsidiary of Dexian
             Astronauts = new List<Astronaut>();
             {
-                Astronauts.Add(new Astronaut("Blue", false));
-                Astronauts.Add(new Astronaut("Red", false));
-                Astronauts.Add(new Astronaut("Orange", false));
-                Astronauts.Add(new Astronaut("Green", false));
-                Astronauts.Add(new Astronaut("Pink", false));
-                Astronauts.Add(new Astronaut("Yellow", false));
-                Astronauts.Add(new Astronaut("Black", false));
-                Astronauts.Add(new Astronaut("White", false));
-                Astronauts.Add(new Astronaut("Purple", false));
-                Astronauts.Add(new Astronaut("Brown", false));
+                Astronauts.Add(new Astronaut("Blue", false, 0, 0));
+                Astronauts.Add(new Astronaut("Red", false, 0, 0));
+                Astronauts.Add(new Astronaut("Orange", false, 0, 0));
+                Astronauts.Add(new Astronaut("Green", false, 0, 0));
+                Astronauts.Add(new Astronaut("Pink", false, 0, 0));
+                Astronauts.Add(new Astronaut("Yellow", false, 0, 0));
+                Astronauts.Add(new Astronaut("Black", false, 0, 0));
+                Astronauts.Add(new Astronaut("White", false, 0, 0));
+                Astronauts.Add(new Astronaut("Purple", false, 0, 0));
+                Astronauts.Add(new Astronaut("Brown", false, 0, 0));
                 //Green, Pink, Yellow, Black, White, Purple, Brown
             };
         }
@@ -51,60 +51,78 @@ namespace ConsoleApp1
         //public void - clue is group landing drill - traitors have 90% failure, non-traitors have 15% failure.
         public void landingDrill()
         {
-            bool success = false;
             Random rnd1 = new Random();
             foreach (Astronaut c in Astronauts)
                 
                 if(c.IsTraitor == true)
                 {
                     int roll = rnd1.Next(1, 50);
-                    if (roll <= 5)
+                    if (roll >= 35)
                     {
-                        success = true;
-                        if (roll == 1)
+                        if (roll > 45)
                         {
-                            Console.WriteLine($"{c.SuitColor} called success from their station. You didn't see it.");
+                            Console.WriteLine($"{c.SuitColor} succeeded at their function. Drill Success++");
+                            c.DrillSuccess++;
                         }
                         else
                         {
-                            Console.WriteLine($"{c.SuitColor} succeeded at their function.");
+                            Console.WriteLine($"{c.SuitColor} called success from their station. You didn't see it. Drill Clue++");
+                            c.DrillClue++;
                         }
                     }
                     else
                     {
-                        success = false;
-                        if (roll >= 40)
+                        if (roll <= 15)
                         {
                             Console.WriteLine($"{c.SuitColor} did not succeed at their function.");
                         }
                         else
                         {
-                            Console.WriteLine($"{c.SuitColor} calls failure from their station. You didn't see it.");
+                            Console.WriteLine($"{c.SuitColor} called failure from their station. You didn't see it.");
                         }
                     }
                 }
                 else
                 {
-                    int roll = rnd1.Next(1, 10);
-                    if (roll <= 9)
+                    int roll = rnd1.Next(1, 50);
+                    if (roll <= 35)
                     {
-                        success = true;
-                        Console.WriteLine($"{c.SuitColor} succeeded at their function.");
+                        if (roll <= 20)
+                        {
+                            Console.WriteLine($"{c.SuitColor} succeeded at their function. Drill Success++");
+                            c.DrillSuccess++;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{c.SuitColor} called success from their station. You didn't see it. Drill Clue++");
+                            c.DrillClue++;
+                        }
                     }
                     else
                     {
-                        success = false;
-                        Console.WriteLine($"{c.SuitColor} calls failure from their station. You didn't see it.");
+                        if (roll <= 45)
+                        {
+                            Console.WriteLine($"{c.SuitColor} did not succeed at their function.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{c.SuitColor} called failure from their station. You didn't see it.");
+                        }
                     }
                 }
         }
 
-        public void RemoveAstronaut(int index)
+        public void RemoveAstronaut(int index, List<Astronaut> jettisonedT)
         {
             for (int i = 0; i < Astronauts.Count; i++)
             {
-                if (i == index)
+                if (i == index )
                 {
+                    if(Astronauts[i].IsTraitor == true)
+                    {
+                        jettisonedT.Add(Astronauts[i]);
+                        Astronauts.RemoveAt(i); 
+                    }
                     Astronauts.Remove(Astronauts[i]);
                     break;
                 }
@@ -130,10 +148,55 @@ namespace ConsoleApp1
         }
         public void DisplayCrew()
         {
-            foreach(Astronaut c in Astronauts)
+
+            Console.WriteLine("# | Suit Color: | DS | DC");
+            foreach (Astronaut c in Astronauts)
             {
-                Console.WriteLine($"{Astronauts.IndexOf(c)}. {c.SuitColor}");
+                Console.WriteLine("{0,1} {1,10} {2,5} {3,5}", $"{Astronauts.IndexOf(c)}.", $"{c.SuitColor}", $"{c.DrillSuccess}", $"{c.DrillClue}");
             }
+            Console.WriteLine("DS: Drill Success | DC: Drill Clue (i.e. unconfirmed success)");
+        }
+        public void MutinyMeter(double mutiny)
+        {
+            if (mutiny == 0)
+            {
+                Console.WriteLine("Chance of mutiny: 0%");
+            }
+            else if (mutiny <= 0.5)
+            {
+                Console.WriteLine("Chance of mutiny: 15%");
+            }
+            else if (mutiny <= 1)
+            {
+                Console.WriteLine("Chance of mutiny: 30%");
+            }
+            else if (mutiny <= 1.5)
+            {
+                Console.WriteLine("Chance of mutiny: 50%");
+            }
+            else if (mutiny <= 2)
+            {
+                Console.WriteLine("Chance of mutiny: 70%");
+            }
+            else if (mutiny <= 2.5)
+            {
+                Console.WriteLine("Chance of mutiny: 90%");
+            }
+        }
+        public void RevealTraitors(List<Astronaut>jettisonedT)
+        {
+            foreach (Astronaut a in Astronauts)
+            {
+                if (a.IsTraitor == true)
+                {
+                    Console.WriteLine($"{a.SuitColor}");
+                }
+            }
+            foreach (Astronaut a in jettisonedT) 
+            {
+                Console.WriteLine($"{a.SuitColor}");
+            }
+
         }
     }
 }
